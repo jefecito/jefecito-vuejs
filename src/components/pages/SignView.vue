@@ -4,7 +4,7 @@
       <div class="row h-100">
         <div class="offset-sm-4 col-sm-4">
           <b-card class="auth-card">
-            <div v-if="show">
+            <div v-if="showLogin">
               <login />
             </div>
             <div v-else>
@@ -12,13 +12,17 @@
             </div>
           </b-card>
           <div class="auth-text">
-            <p v-if="show" class="text-secondary text-center">
+            <p v-if="showLogin" class="text-secondary text-center">
               ¿No estas registrado?
-              <b class="pointer-cursor" @click="show = !show">Crea una cuenta</b>
+              <b class="pointer-cursor" @click="showLogin = !showLogin">
+                Crea una cuenta
+              </b>
             </p>
             <p v-else class="text-secondary text-center">
               ¿Ya eres miembro?
-              <b class="pointer-cursor" @click="show = !show">Ingresa con tu usuario</b>
+              <b class="pointer-cursor" @click="showLogin = !showLogin">
+                Ingresa con tu usuario
+              </b>
             </p>
           </div>
 
@@ -69,17 +73,23 @@ export default {
   },
   data () {
     return {
-      show: true
+      showLogin: true
     }
   }
 }
 </script>
 
 <style lang="css">
+  /**
+   * Sign Card
+   */
   .auth-card {
     box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
     border: 0;
   }
+  /**
+   * Texts
+   */
   .pointer-cursor {
     cursor: pointer;
     color: #444;
@@ -91,8 +101,12 @@ export default {
   .auth-text {
     margin-top: 10px;
   }
+  /**
+   * Social Buttons Styles
+   */
   .btn-social {
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08),
+                0 2px 2px 0 rgba(0, 0, 0, 0.1);
   }
   .btn-social.btn-facebook {
     background-color: #3B5998;
@@ -109,8 +123,5 @@ export default {
   .btn-social.btn-linkedin {
     background-color: #0077b5;
     border-color: #0077b5;
-  }
-  .small-hr {
-    width: 25%;
   }
 </style>

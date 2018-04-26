@@ -70,7 +70,18 @@ export default {
     axios
       .post('/login', data)
       .then(response => {
-        if (response.data.success) {
+        if (!response.data.success) {
+          dispatch(ADD_TOAST_MESSAGE, {
+            text: response.data.error.message,
+            type: 'danger',
+            dismissAfter: 3000
+          }, {
+            root: true
+          })
+
+          localStorageService.removeUser()
+          commit('setLoggedOut')
+        } else {
           dispatch(ADD_TOAST_MESSAGE, {
             text: `Bienvenido, ${response.data.data.username}`,
             type: 'success',
@@ -82,17 +93,6 @@ export default {
           commit('setLoggedIn', response.data.data)
           localStorageService.setUser(response.data.data)
           router.push('/')
-        } else {
-          dispatch(ADD_TOAST_MESSAGE, {
-            text: response.data.error.message,
-            type: 'danger',
-            dismissAfter: 3000
-          }, {
-            root: true
-          })
-
-          localStorageService.removeUser()
-          commit('setLoggedOut')
         } // if/else
       })
       .catch((err) => {

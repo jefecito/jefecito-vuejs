@@ -27,7 +27,7 @@ axios.defaults.baseURL = baseURL
 axios.interceptors.request.use((config) => {
   const auth = localStorageService.getToken()
 
-  config.headers.common['access-token'] = auth
+  config.headers.common['x-access-token'] = auth
 
   return config
 })

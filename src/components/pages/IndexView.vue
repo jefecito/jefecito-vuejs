@@ -3,9 +3,9 @@
     <h4 class="text-center">
       The ectoplasmic-free JS Seed
     </h4>
-    <h6 class="text-center">
-      This is the Jefecito's VUEjs version
-    </h6>
+    <p class="text-center">
+      vueJS version
+    </p>
   </section>
 </template>
 

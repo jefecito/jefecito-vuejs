@@ -16,9 +16,9 @@
             <b-dropdown-item v-if="isAdmin" :to="{ name: 'UserAdministration' }">
               Administración
             </b-dropdown-item>
-            <b-dropdown-item :to="{ name: 'UserSettings' }">
+            <!--<b-dropdown-item :to="{ name: 'UserSettings' }">
               Configuración
-            </b-dropdown-item>
+            </b-dropdown-item>-->
             <b-dropdown-item @click="logOut">
               Cerrar Sesión
             </b-dropdown-item>

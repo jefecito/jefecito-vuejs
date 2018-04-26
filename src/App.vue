@@ -94,6 +94,9 @@ export default {
   .no-margin {
     margin: 0;
   }
+  .small-hr {
+    width: 25%;
+  }
 
   /**
    * Sections
