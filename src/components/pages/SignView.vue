@@ -22,7 +22,7 @@
             </p>
           </div>
 
-          <hr>
+          <hr class="small-hr">
 
           <b-button
             class="btn-social btn-facebook"
@@ -34,15 +34,22 @@
           <b-button
             class="btn-social btn-google"
             block
-            variant="primary">
+            variant="danger">
             Acceder con <b>Google</b>
           </b-button>
 
           <b-button
             class="btn-social btn-twitter"
             block
-            variant="primary">
+            variant="info">
             Acceder con <b>Twitter</b>
+          </b-button>
+
+          <b-button
+            class="btn-social btn-linkedin"
+            block
+            variant="primary">
+            Acceder con <b>LinkedIn</b>
           </b-button>
         </div>
       </div>
@@ -98,5 +105,12 @@ export default {
   .btn-social.btn-twitter {
     background-color: #00aced;
     border-color: #00aced;
+  }
+  .btn-social.btn-linkedin {
+    background-color: #0077b5;
+    border-color: #0077b5;
+  }
+  .small-hr {
+    width: 25%;
   }
 </style>
