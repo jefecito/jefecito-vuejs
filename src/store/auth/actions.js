@@ -98,7 +98,51 @@ export default {
       .catch((err) => {
         console.log('err: ', err)
         dispatch(ADD_TOAST_MESSAGE, {
-          text: err,
+          text: err.message,
+          type: 'danger',
+          dismissAfter: 3000
+        }, {
+          root: true
+        })
+
+        localStorageService.removeUser()
+        commit('setLoggedOut')
+      })
+  },
+
+  getUser ({ commit, state, dispatch }, payload) {
+    axios
+      .post('/api/user/me', payload)
+      .then((response) => {
+        console.log('response: ', response)
+        if (!response.data.success) {
+          dispatch(ADD_TOAST_MESSAGE, {
+            text: response.data.error.message,
+            type: 'danger',
+            dismissAfter: 3000
+          }, {
+            root: true
+          })
+
+          localStorageService.removeUser()
+          commit('setLoggedOut')
+        } else {
+          dispatch(ADD_TOAST_MESSAGE, {
+            text: `Bienvenido, ${response.data.data.username}`,
+            type: 'success',
+            dismissAfter: 3000
+          }, {
+            root: true
+          })
+
+          commit('setLoggedIn', response.data.data)
+          localStorageService.setUser(response.data.data)
+          router.push('/')
+        } // if/else
+      })
+      .catch((err) => {
+        dispatch(ADD_TOAST_MESSAGE, {
+          text: err.message,
           type: 'danger',
           dismissAfter: 3000
         }, {

@@ -10,20 +10,29 @@
       <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown v-if="isLogged" right>
-            <template slot="button-content">
-              <img :src="user.avatar" alt="User avatar" class="navbar-avatar">
+            <template
+              slot="button-content">
+              <img
+                :src="user.avatar"
+                alt="User avatar"
+                class="navbar-avatar">
             </template>
-            <b-dropdown-item v-if="isAdmin" :to="{ name: 'UserAdministration' }">
+
+            <b-dropdown-item
+              v-if="isAdmin"
+              :to="{ name: 'UserAdministration' }">
               Administración
             </b-dropdown-item>
-            <!--<b-dropdown-item :to="{ name: 'UserSettings' }">
-              Configuración
-            </b-dropdown-item>-->
-            <b-dropdown-item @click="logOut">
+
+            <b-dropdown-item
+              @click="logOut">
               Cerrar Sesión
             </b-dropdown-item>
           </b-nav-item-dropdown>
-          <b-nav-item v-else :to="{ name: 'Sign' }">
+
+          <b-nav-item
+            v-else
+            :to="{ name: 'Sign' }">
             Acceso
           </b-nav-item>
         </b-navbar-nav>
@@ -33,7 +42,11 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import {
+  mapActions,
+  mapState,
+  mapGetters
+} from 'vuex'
 
 export default {
   name: 'Navbar',
@@ -41,12 +54,14 @@ export default {
     ...mapState('auth', {
       isLogged: (state) => state.isLoggedIn,
       user: (state) => state.user
-    })
+    }),
+    ...mapGetters('auth', [
+      'isAdmin'
+    ])
   },
   methods: {
     ...mapActions('auth', [
-      'logOut',
-      'isAdmin'
+      'logOut'
     ])
   }
 }
@@ -63,9 +78,9 @@ export default {
   /**
    * Brand Styling
    */
-  .navbar-brand {
+  .navbar-light .navbar-brand {
     font-weight: 400;
-    font-size: 24px;
+    font-size: 21px;
     color: #424242;
   }
   /**

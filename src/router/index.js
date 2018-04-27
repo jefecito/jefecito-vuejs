@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import CFG from '@/config'
+import { store } from '../store'
 
 /**
  * Public Views
@@ -20,18 +21,35 @@ const UserAdministrationView = () => import('@/components/pages/admin/UserAdmini
 Vue.use(Router)
 
 const routes = [
+  /**
+   * Redirect everything to index
+   */
   {
     path: '*',
     redirect: '/'
-  }, {
+  },
+  /**
+   * Index
+   */
+  {
     path: '/',
     name: 'Index',
     component: IndexView
-  }, {
+  },
+  /**
+   * Sing In / Sign Up
+   */
+  {
     path: '/sign',
     name: 'Sign',
     component: SignView
-  }, {
+  },
+  /**
+   * Admin Views
+   *
+   * Users List
+   */
+  {
     path: '/admin/users',
     name: 'UserAdministration',
     component: UserAdministrationView,
@@ -39,14 +57,34 @@ const routes = [
       requiresAuth: true,
       role: 'admin'
     }
-  }
-  /*
-    , {
-      path: '/',
-      name: 'UserSettings',
-      component: IndexView
+  },
+  /**
+   * Auth
+   *
+   * Google Auth and Callbackthis.$store
+   */
+  {
+    name: 'authGoogle',
+    path: '/auth/google',
+    beforeEnter (to, from, next) {
+      window.location = 'http://localhost:3000/auth/google'
     }
-  */
+  },
+  /**
+   * Callback Social Network Login
+   */
+  {
+    path: '/auth/callback',
+    beforeEnter (to, from, next) {
+      if (!to.query.token) {
+        window.location = '/'
+      } else {
+        store.dispatch('auth/getUser', {
+          token: to.query.token
+        })
+      } // if/else
+    }
+  }
 ]
 
 const router = new Router({

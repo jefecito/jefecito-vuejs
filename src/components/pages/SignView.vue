@@ -31,6 +31,7 @@
           <b-button
             class="btn-social btn-facebook"
             block
+            disabled
             variant="primary">
             Acceder con <b>Facebook</b>
           </b-button>
@@ -38,6 +39,7 @@
           <b-button
             class="btn-social btn-google"
             block
+            :to="{ name: 'authGoogle' }"
             variant="danger">
             Acceder con <b>Google</b>
           </b-button>
@@ -45,6 +47,7 @@
           <b-button
             class="btn-social btn-twitter"
             block
+            disabled
             variant="info">
             Acceder con <b>Twitter</b>
           </b-button>
@@ -52,6 +55,7 @@
           <b-button
             class="btn-social btn-linkedin"
             block
+            disabled
             variant="primary">
             Acceder con <b>LinkedIn</b>
           </b-button>
