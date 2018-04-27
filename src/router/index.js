@@ -61,7 +61,7 @@ const routes = [
   /**
    * Auth
    *
-   * Google Auth and Callbackthis.$store
+   * Google Auth
    */
   {
     name: 'authGoogle',
@@ -70,6 +70,16 @@ const routes = [
       window.location = 'http://localhost:3000/auth/google'
     }
   },
+  /*
+  * LinkedIn Auth
+  */
+ {
+   name: 'authLinkedin',
+   path: '/auth/linkedin',
+   beforeEnter (to, from, next) {
+     window.location = 'http://localhost:3000/auth/linkedin'
+   }
+ },
   /**
    * Callback Social Network Login
    */

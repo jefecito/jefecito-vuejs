@@ -55,7 +55,7 @@
           <b-button
             class="btn-social btn-linkedin"
             block
-            disabled
+            :to="{ name: 'authLinkedin' }"
             variant="primary">
             Acceder con <b>LinkedIn</b>
           </b-button>
