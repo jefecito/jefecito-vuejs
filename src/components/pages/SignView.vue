@@ -31,7 +31,7 @@
           <b-button
             class="btn-social btn-facebook"
             block
-            disabled
+            :to="{ name: 'authFacebook' }"
             variant="primary">
             Acceder con <b>Facebook</b>
           </b-button>
@@ -47,7 +47,7 @@
           <b-button
             class="btn-social btn-twitter"
             block
-            disabled
+            :to="{ name: 'authTwitter' }"
             variant="info">
             Acceder con <b>Twitter</b>
           </b-button>

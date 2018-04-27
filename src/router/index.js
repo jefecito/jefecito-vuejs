@@ -73,13 +73,33 @@ const routes = [
   /*
   * LinkedIn Auth
   */
- {
-   name: 'authLinkedin',
-   path: '/auth/linkedin',
-   beforeEnter (to, from, next) {
-     window.location = 'http://localhost:3000/auth/linkedin'
-   }
- },
+  {
+    name: 'authLinkedin',
+    path: '/auth/linkedin',
+    beforeEnter (to, from, next) {
+      window.location = 'http://localhost:3000/auth/linkedin'
+    }
+  },
+  /*
+  * Twitter Auth
+  */
+  {
+    name: 'authTwitter',
+    path: '/auth/twitter',
+    beforeEnter (to, from, next) {
+      window.location = 'http://localhost:3000/auth/twitter'
+    }
+  },
+  /*
+  * Twitter Auth
+  */
+  {
+    name: 'authFacebook',
+    path: '/auth/facebook',
+    beforeEnter (to, from, next) {
+      window.location = 'http://localhost:3000/auth/facebook'
+    }
+  },
   /**
    * Callback Social Network Login
    */
