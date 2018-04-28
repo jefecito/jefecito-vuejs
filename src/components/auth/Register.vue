@@ -56,20 +56,30 @@ export default {
     }
   },
   methods: {
-    ...mapActions('auth', ['logIn']),
+    ...mapActions('auth', [
+      'signUp'
+    ]),
     ...mapActions({
       addToast: ADD_TOAST_MESSAGE
     }),
     submit () {
+      if (this.credentials.password !== this.credentials.rePassword) {
+        return this.addToast({
+          text: 'Las contraseñas deben coincidir',
+          type: 'danger',
+          dismissAfter: 10000
+        })
+      }
+
       if (!this.credentials.email.length || !this.credentials.email.length) {
-        this.addToast({
+        return this.addToast({
           text: 'Campos Insuficientes',
           type: 'danger',
           dismissAfter: 10000
         })
-      } else {
-        this.logIn(this.credentials)
       }
+
+      this.signUp(this.credentials)
     }
   }
 }

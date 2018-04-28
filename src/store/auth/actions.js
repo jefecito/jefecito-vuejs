@@ -1,7 +1,10 @@
 import axios from 'axios'
 import router from '@/router'
 import localStorageService from '@/utils/localStorageService'
-import { ADD_TOAST_MESSAGE } from 'vuex-toast'
+import {
+  ADD_TOAST_MESSAGE,
+  REMOVE_TOAST_MESSAGE
+} from 'vuex-toast'
 
 export default {
   /*
@@ -83,7 +86,7 @@ export default {
           commit('setLoggedOut')
         } else {
           dispatch(ADD_TOAST_MESSAGE, {
-            text: `Bienvenido, ${response.data.data.username}`,
+            text: `Bienvenido, ${response.data.data.username || response.data.data.email}`,
             type: 'success',
             dismissAfter: 3000
           }, {
@@ -110,11 +113,102 @@ export default {
       })
   },
 
+  signUp ({ commit, state, dispatch }, payload) {
+    axios
+      .post('/register', payload)
+      .then((response) => {
+        if (!response.data.success) {
+          dispatch(ADD_TOAST_MESSAGE, {
+            text: response.data.error.message,
+            type: 'danger',
+            dismissAfter: 3000
+          }, {
+            root: true
+          })
+        } else {
+          dispatch(ADD_TOAST_MESSAGE, {
+            text: response.data.data,
+            type: 'info',
+            dismissAfter: 3000
+          }, {
+            root: true
+          })
+        }
+      })
+      .catch((err) => {
+        dispatch(ADD_TOAST_MESSAGE, {
+          text: err.message,
+          type: 'danger',
+          dismissAfter: 3000
+        }, {
+          root: true
+        })
+      })
+  },
+
+  logOut ({ commit, state, dispatch }) {
+    dispatch(ADD_TOAST_MESSAGE, {
+      text: `Hasta luego, ${state.user.username || state.user.email}`,
+      type: 'info',
+      dismissAfter: 3000
+    }, {
+      root: true
+    })
+
+    localStorageService.removeUser()
+    commit('setLoggedOut')
+    router.push('/')
+  },
+
+  confirmEmail ({ commit, state, dispatch }, payload) {
+    dispatch(ADD_TOAST_MESSAGE, {
+      text: 'Validando su email, por favor aguarde un instante...',
+      type: 'info',
+      dismissAfter: 5000
+    }, {
+      root: true
+    })
+
+    axios
+      .get('/api/user/confirm', { params: payload })
+      .then(response => {
+        console.log('response: ', response)
+        // dispatch(REMOVE_TOAST_MESSAGE, 22)
+        if (!response.data.success) {
+          dispatch(ADD_TOAST_MESSAGE, {
+            text: response.data.error.message,
+            type: 'danger',
+            dismissAfter: 3000
+          }, {
+            root: true
+          })
+        } else {
+          dispatch(ADD_TOAST_MESSAGE, {
+            text: `Su email: ${response.data.data.email} ha sido validado. Ya puede iniciar sesión.`,
+            type: 'success',
+            dismissAfter: 3000
+          }, {
+            root: true
+          })
+        } // if/else
+      })
+      .catch((err) => {
+        console.log('err: ', err)
+        dispatch(REMOVE_TOAST_MESSAGE, 'validate_email')
+        dispatch(ADD_TOAST_MESSAGE, {
+          text: err.message,
+          type: 'danger',
+          dismissAfter: 3000
+        }, {
+          root: true
+        })
+      })
+  },
+
   getUser ({ commit, state, dispatch }, payload) {
     axios
       .post('/api/user/me', payload)
       .then((response) => {
-        console.log('response: ', response)
         if (!response.data.success) {
           dispatch(ADD_TOAST_MESSAGE, {
             text: response.data.error.message,
@@ -152,20 +246,5 @@ export default {
         localStorageService.removeUser()
         commit('setLoggedOut')
       })
-  },
-
-  logOut ({ commit, state, dispatch }) {
-    console.log('state: ', state)
-    dispatch(ADD_TOAST_MESSAGE, {
-      text: `Hasta luego, ${state.user.username}`,
-      type: 'info',
-      dismissAfter: 3000
-    }, {
-      root: true
-    })
-
-    localStorageService.removeUser()
-    commit('setLoggedOut')
-    router.push('/')
   }
 }

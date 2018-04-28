@@ -54,7 +54,6 @@ export default {
   p.text-secondary {
     color: #626262;
   }
-
   /**
    * Links
    */
@@ -67,7 +66,6 @@ export default {
   a:focus {
     outline: 0px;
   }
-
   /**
    * Buttons
    */
@@ -87,7 +85,6 @@ export default {
   .form-control:focus {
     box-shadow: none;
   }
-
   /**
    * Misc
    */
@@ -97,7 +94,6 @@ export default {
   .small-hr {
     width: 25%;
   }
-
   /**
    * Sections
    */
@@ -107,7 +103,6 @@ export default {
   .section {
     padding: 50px 0;
   }
-
   /**
    * Tables
    */
@@ -187,5 +182,12 @@ export default {
   }
   .table-input::-ms-input-placeholder {
     color: #999;
+  }
+  /**
+   * Toast
+   */
+  .toast-message {
+    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
   }
 </style>

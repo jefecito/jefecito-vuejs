@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import CFG from '@/config'
-import { store } from '../store'
+import { store } from '@/store'
 
 /**
  * Public Views
@@ -112,6 +112,23 @@ const routes = [
         store.dispatch('auth/getUser', {
           token: to.query.token
         })
+      } // if/else
+    }
+  },
+  /**
+   * Confirm Email
+   */
+  {
+    path: '/user/confirm/:id',
+    component: SignView,
+    beforeEnter (to, from, next) {
+      if (!to.params.id) {
+        window.location = '/'
+      } else {
+        store.dispatch('auth/confirmEmail', {
+          id: to.params.id
+        })
+        next()
       } // if/else
     }
   }
