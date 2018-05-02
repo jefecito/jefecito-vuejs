@@ -1,7 +1,7 @@
 <template lang="html">
   <form @submit.prevent="submit">
     <h4>
-      Registrarse
+      <b>Registrarse</b>
     </h4>
     <b-form-group>
       <small>

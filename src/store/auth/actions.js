@@ -205,6 +205,37 @@ export default {
       })
   },
 
+  requestPassword ({ commit, state, dispatch }, payload) {
+    dispatch(ADD_TOAST_MESSAGE, {
+      text: 'Validando su email, por favor aguarde un instante...',
+      type: 'info',
+      dismissAfter: 5000
+    }, {
+      root: true
+    })
+
+    axios
+      .put('/api/user/me/request-password', payload)
+      .then(response => {
+        dispatch(ADD_TOAST_MESSAGE, {
+          text: response.data.data,
+          type: 'success',
+          dismissAfter: 5000
+        }, {
+          root: true
+        })
+      })
+      .catch((err) => {
+        dispatch(ADD_TOAST_MESSAGE, {
+          text: err.message,
+          type: 'danger',
+          dismissAfter: 3000
+        }, {
+          root: true
+        })
+      })
+  },
+
   getUser ({ commit, state, dispatch }, payload) {
     axios
       .post('/api/user/me', payload)

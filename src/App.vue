@@ -34,7 +34,6 @@ export default {
    */
   @import 'bootstrap/dist/css/bootstrap.css';
   @import 'bootstrap-vue/dist/bootstrap-vue.css';
-
   /**
    * General
    */
@@ -42,11 +41,9 @@ export default {
     font-family: "Source Sans Pro";
     background-color: #f5f5f5;
   }
-
   *:focus {
     outline: none;
   }
-
   p {
     margin-bottom: .5rem;
     color: #424242;
@@ -72,6 +69,11 @@ export default {
   button:focus {
     outline: 0;
   }
+  .btn {
+    font-size: 14px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08),
+                0 2px 2px 0 rgba(0, 0, 0, 0.1);
+  }
   .btn.active.focus,
   .btn.active:focus,
   .btn.focus,
@@ -84,6 +86,13 @@ export default {
   .btn.focus,
   .form-control:focus {
     box-shadow: none;
+  }
+  /**
+   * Cards
+   */
+  .card {
+    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
+    border: 0;
   }
   /**
    * Misc
@@ -189,5 +198,17 @@ export default {
   .toast-message {
     box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
     border-radius: 3px;
+  }
+  /**
+   * Modal
+   */
+  .modal-dialog {
+    box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.2);
+  }
+  .modal-header {
+    border-bottom: 0;
+  }
+  .modal-title {
+    font-weight: 700;
   }
 </style>

@@ -1,7 +1,7 @@
 <template lang="html">
   <form @submit.prevent="submit">
     <h4>
-      Inicar sesión
+      <b>Inicar sesión</b>
     </h4>
 
     <b-form-group>
@@ -25,17 +25,20 @@
         type="password">
       </b-form-input>
       <p class="text-right no-margin">
-        <small class="text-secondary forgot-password">
+        <small v-b-modal.modalRecoverPassword
+          class="text-secondary forgot-password">
           Olvidé mi contraseña
         </small>
       </p>
     </b-form-group>
 
-    <b-button
-      type="submit"
-      variant="primary">
-      Ingresar
-    </b-button>
+    <div class="text-right">
+      <b-button
+        type="submit"
+        variant="primary">
+        Ingresar
+      </b-button>
+    </div>
   </form>
 </template>
 

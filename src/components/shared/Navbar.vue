@@ -1,44 +1,42 @@
 <template lang="">
-  <div class="">
-    <b-navbar toggleable="md" fixed="top">
-      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+  <b-navbar toggleable="md" fixed="top">
+    <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-      <b-navbar-brand to="/">
-        Jefecito
-      </b-navbar-brand>
+    <b-navbar-brand to="/">
+      Jefecito
+    </b-navbar-brand>
 
-      <b-collapse is-nav id="nav_collapse">
-        <b-navbar-nav class="ml-auto">
-          <b-nav-item-dropdown v-if="isLogged" right>
-            <template
-              slot="button-content">
-              <img
-                :src="user.avatar"
-                alt="User avatar"
-                class="navbar-avatar">
-            </template>
+    <b-collapse is-nav id="nav_collapse">
+      <b-navbar-nav class="ml-auto">
+        <b-nav-item-dropdown v-if="isLogged" right>
+          <template
+            slot="button-content">
+            <img
+              :src="user.avatar"
+              alt="User avatar"
+              class="navbar-avatar">
+          </template>
 
-            <b-dropdown-item
-              v-if="isAdmin"
-              :to="{ name: 'UserAdministration' }">
-              Administración
-            </b-dropdown-item>
+          <b-dropdown-item
+            v-if="isAdmin"
+            :to="{ name: 'UserAdministration' }">
+            Administración
+          </b-dropdown-item>
 
-            <b-dropdown-item
-              @click="logOut">
-              Cerrar Sesión
-            </b-dropdown-item>
-          </b-nav-item-dropdown>
+          <b-dropdown-item
+            @click="logOut">
+            Cerrar Sesión
+          </b-dropdown-item>
+        </b-nav-item-dropdown>
 
-          <b-nav-item
-            v-else
-            :to="{ name: 'Sign' }">
-            Acceso
-          </b-nav-item>
-        </b-navbar-nav>
-      </b-collapse>
-    </b-navbar>
-  </div>
+        <b-nav-item
+          v-else
+          :to="{ name: 'Sign' }">
+          Acceso
+        </b-nav-item>
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
 </template>
 
 <script>
