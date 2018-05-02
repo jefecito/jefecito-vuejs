@@ -35,6 +35,21 @@ export default {
   @import 'bootstrap/dist/css/bootstrap.css';
   @import 'bootstrap-vue/dist/bootstrap-vue.css';
   /**
+   * Transition Fade
+   */
+  .fade-enter-active,
+  .fade-leave-active {
+    transition-property: opacity;
+    transition-duration: .25s;
+  }
+  .fade-enter-active {
+    transition-delay: .25s;
+  }
+  .fade-enter,
+  .fade-leave-active {
+    opacity: 0
+  }
+  /**
    * General
    */
   body {
