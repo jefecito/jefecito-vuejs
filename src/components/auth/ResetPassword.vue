@@ -1,42 +1,38 @@
 <template lang="html">
   <form @submit.prevent="submit">
     <h4>
-      <b>Inicar sesión</b>
+      <b>Reestablecer Contraseña</b>
     </h4>
 
     <b-form-group>
       <small>
-        Email
+        Nueva Contraseña
       </small>
       <b-form-input
-        v-model="credentials.email"
-        name="email"
-        type="email">
+        v-model="credentials.password"
+        placeholder="Mínimo de 7 caracteres"
+        name="password"
+        type="password">
       </b-form-input>
     </b-form-group>
 
     <b-form-group>
       <small>
-        Contraseña
+        Reingresar contraseña
       </small>
       <b-form-input
-        v-model="credentials.password"
+        v-model="credentials.rePassword"
+        placeholder="Las contraseñas deben coincidir"
         name="password"
         type="password">
       </b-form-input>
-      <p class="text-right no-margin">
-        <small v-b-modal.modalRecoverPassword
-          class="text-secondary forgot-password">
-          Olvidé mi contraseña
-        </small>
-      </p>
     </b-form-group>
 
     <div class="text-right">
       <b-button
         type="submit"
         variant="primary">
-        Ingresar
+        Confirmar
       </b-button>
     </div>
   </form>
@@ -47,7 +43,10 @@ import { mapActions } from 'vuex'
 import { ADD_TOAST_MESSAGE } from 'vuex-toast'
 
 export default {
-  name: 'Login',
+  name: 'ResetPassword',
+  props: [
+    'token'
+  ],
   data () {
     return {
       credentials: {}
@@ -55,20 +54,22 @@ export default {
   },
   methods: {
     ...mapActions('auth', [
-      'logIn'
+      'resetPassword'
     ]),
     ...mapActions({
       addToast: ADD_TOAST_MESSAGE
     }),
     submit () {
-      if (!this.credentials.email.length || !this.credentials.password.length) {
+      if (this.credentials.password !== this.credentials.rePassword) {
         this.addToast({
-          text: 'Campos Insuficientes',
+          text: 'Las contraseñas deben coincidir.',
           type: 'danger',
           dismissAfter: 10000
         })
       } else {
-        this.logIn(this.credentials)
+        console.log(this.token)
+        this.credentials.token = this.token
+        this.resetPassword(this.credentials)
       }
     }
   }
@@ -76,8 +77,4 @@ export default {
 </script>
 
 <style lang="css" scoped>
-  .forgot-password {
-    cursor: pointer;
-    color: #666;
-  }
 </style>

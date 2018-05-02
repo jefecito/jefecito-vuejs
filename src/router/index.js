@@ -4,11 +4,15 @@ import CFG from '@/config'
 import { store } from '@/store'
 
 /**
- * Public Views
+ * Public View List
  */
 const IndexView = () => import('@/components/pages/IndexView')
-const SignView = () => import('@/components/pages/SignView')
-const UserAdministrationView = () => import('@/components/pages/admin/UserAdministrationView')
+
+/**
+ * Auth Views
+ */
+const SignView = () => import('@/components/pages/auth/SignView')
+const ResetPasswordView = () => import('@/components/pages/auth/ResetPasswordView')
 
 /**
  * Protected User Views
@@ -17,6 +21,7 @@ const UserAdministrationView = () => import('@/components/pages/admin/UserAdmini
 /**
  * Admin Views
  */
+const UserAdministrationView = () => import('@/components/pages/admin/UserAdministrationView')
 
 Vue.use(Router)
 
@@ -131,6 +136,16 @@ const routes = [
         next()
       } // if/else
     }
+  },
+  /**
+   * Reset Password
+   */
+  {
+    path: '/reset-password/:token',
+    component: ResetPasswordView,
+    props: (route) => ({
+      token: route.params.token
+    })
   }
 ]
 

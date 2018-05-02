@@ -171,8 +171,7 @@ export default {
 
     axios
       .get('/api/user/confirm', { params: payload })
-      .then(response => {
-        console.log('response: ', response)
+      .then((response) => {
         // dispatch(REMOVE_TOAST_MESSAGE, 22)
         if (!response.data.success) {
           dispatch(ADD_TOAST_MESSAGE, {
@@ -234,6 +233,78 @@ export default {
           root: true
         })
       })
+  },
+
+  resetPassword ({ commit, state, dispatch }, payload) {
+    axios
+      .put('/api/user/me/reset-password', payload)
+      .then((response) => {
+        if (!response.data.success) {
+          dispatch(ADD_TOAST_MESSAGE, {
+            text: response.data.error.message,
+            type: 'danger',
+            dismissAfter: 8000
+          }, {
+            root: true
+          })
+        } else {
+          dispatch(ADD_TOAST_MESSAGE, {
+            text: response.data.data,
+            type: 'success',
+            dismissAfter: 8000
+          }, {
+            root: true
+          })
+
+          router.push('/sign')
+        }
+      })
+      .catch((err) => {
+        dispatch(ADD_TOAST_MESSAGE, {
+          text: err.message,
+          type: 'danger',
+          dismissAfter: 3000
+        }, {
+          root: true
+        })
+      })
+  },
+
+  verifyToken ({ commit, state, dispatch }, payload) {
+    const params = {
+      token: payload
+    }
+
+    return new Promise((resolve, reject) => {
+      axios
+        .get('/api/user/token', { params })
+        .then(response => {
+          if (!response.data.success) {
+            dispatch(ADD_TOAST_MESSAGE, {
+              text: response.data.error.message,
+              type: 'danger',
+              dismissAfter: 3000
+            }, {
+              root: true
+            })
+
+            reject(new Error(false))
+          } else {
+            resolve(response.data.data)
+          } // if/else
+        })
+        .catch((err) => {
+          dispatch(ADD_TOAST_MESSAGE, {
+            text: err.message,
+            type: 'danger',
+            dismissAfter: 3000
+          }, {
+            root: true
+          })
+
+          reject(new Error(false))
+        })
+    })
   },
 
   getUser ({ commit, state, dispatch }, payload) {

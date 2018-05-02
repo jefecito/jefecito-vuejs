@@ -4,12 +4,8 @@
       <div class="row h-100">
         <div class="offset-sm-4 col-sm-4">
           <b-card>
-            <div v-if="showLogin">
-              <login />
-            </div>
-            <div v-else>
-              <register />
-            </div>
+            <login v-if="showLogin"/>
+            <register v-else/>
           </b-card>
           <div class="auth-text">
             <p v-if="showLogin" class="text-secondary text-center">
@@ -38,10 +34,10 @@
 </template>
 
 <script>
-import Login from '../auth/Login'
-import Register from '../auth/Register'
-import RecoverPassword from '../auth/RecoverPassword'
-import SocialButtons from '../auth/SocialButtons'
+import Login from '../../auth/Login'
+import Register from '../../auth/Register'
+import RecoverPassword from '../../auth/RecoverPassword'
+import SocialButtons from '../../auth/SocialButtons'
 
 export default {
   name: 'LoginView',
@@ -59,17 +55,13 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
   /**
    * Texts
    */
   .pointer-cursor {
     cursor: pointer;
     color: #444;
-  }
-  .forgot-password {
-    cursor: pointer;
-    color: #666;
   }
   .auth-text {
     margin-top: 10px;
