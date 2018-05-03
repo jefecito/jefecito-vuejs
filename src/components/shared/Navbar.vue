@@ -19,7 +19,7 @@
 
           <b-dropdown-item
             v-if="isAdmin"
-            :to="{ name: 'UserAdministration' }">
+            :to="{ name: 'UserTable' }">
             Administración
           </b-dropdown-item>
 
@@ -70,14 +70,17 @@ export default {
    * Navbar General Styling
    */
   .navbar {
+    border-top: 4px solid #03A9F4;
     background-color: #fefefe;
-    box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .15);
+    box-shadow: 0 0px 5px 1px rgba(0, 0, 0, 0.07),
+                0 0px 7px 2px rgba(0, 0, 0, 0.06),
+                0 0px 2.5px -3px rgba(0, 0, 0, 0.15);
   }
   /**
    * Brand Styling
    */
   .navbar-light .navbar-brand {
-    font-weight: 400;
+    font-weight: 700;
     font-size: 21px;
     color: #424242;
   }

@@ -44,9 +44,12 @@ import { ADD_TOAST_MESSAGE } from 'vuex-toast'
 
 export default {
   name: 'ResetPassword',
-  props: [
-    'token'
-  ],
+  props: {
+    token: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       credentials: {}
@@ -67,7 +70,6 @@ export default {
           dismissAfter: 10000
         })
       } else {
-        console.log(this.token)
         this.credentials.token = this.token
         this.resetPassword(this.credentials)
       }

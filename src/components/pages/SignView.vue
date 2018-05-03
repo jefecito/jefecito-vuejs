@@ -34,10 +34,10 @@
 </template>
 
 <script>
-import Login from '../../auth/Login'
-import Register from '../../auth/Register'
-import RecoverPassword from '../../auth/RecoverPassword'
-import SocialButtons from '../../auth/SocialButtons'
+import Login from '../auth/Login'
+import Register from '../auth/Register'
+import RecoverPassword from '../auth/RecoverPassword'
+import SocialButtons from '../auth/SocialButtons'
 
 export default {
   name: 'LoginView',

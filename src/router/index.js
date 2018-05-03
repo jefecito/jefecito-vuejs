@@ -4,6 +4,14 @@ import CFG from '@/config'
 import { store } from '@/store'
 
 /**
+ * Route Metas
+ */
+const meta = {
+  requiresAuth: true,
+  role: 'admin'
+}
+
+/**
  * Public View List
  */
 const IndexView = () => import('@/components/pages/IndexView')
@@ -11,8 +19,8 @@ const IndexView = () => import('@/components/pages/IndexView')
 /**
  * Auth Views
  */
-const SignView = () => import('@/components/pages/auth/SignView')
-const ResetPasswordView = () => import('@/components/pages/auth/ResetPasswordView')
+const SignView = () => import('@/components/pages/SignView')
+const ResetPasswordView = () => import('@/components/pages/ResetPasswordView')
 
 /**
  * Protected User Views
@@ -21,7 +29,8 @@ const ResetPasswordView = () => import('@/components/pages/auth/ResetPasswordVie
 /**
  * Admin Views
  */
-const UserAdministrationView = () => import('@/components/pages/admin/UserAdministrationView')
+const AdminView = () => import('@/components/pages/AdminView')
+const UserTable = () => import('@/components/admin/UserTable')
 
 Vue.use(Router)
 
@@ -51,17 +60,23 @@ const routes = [
   },
   /**
    * Admin Views
-   *
-   * Users List
    */
   {
-    path: '/admin/users',
-    name: 'UserAdministration',
-    component: UserAdministrationView,
-    meta: {
-      requiresAuth: true,
-      role: 'admin'
-    }
+    path: '/admin',
+    name: 'AdminView',
+    component: AdminView,
+    redirect: '/',
+    children: [
+      /**
+       * Users ABM
+       */
+      {
+        path: 'users',
+        name: 'UserTable',
+        component: UserTable,
+        meta
+      }
+    ]
   },
   /**
    * Auth

@@ -19,8 +19,8 @@
 
 <script>
 import { mapActions } from 'vuex'
-import ResetPassword from '../../auth/ResetPassword'
-import { diffDates, dateCountdown } from '../../../filter/date'
+import ResetPassword from '../auth/ResetPassword'
+import { diffDates, dateCountdown } from '../../filter/date'
 import { ADD_TOAST_MESSAGE } from 'vuex-toast'
 
 export default {
@@ -79,6 +79,9 @@ export default {
       },
       deep: true
     }
+  },
+  beforeDestroy () {
+    clearInterval(this.intervalId)
   },
   data () {
     return {

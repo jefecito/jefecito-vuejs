@@ -1,9 +1,7 @@
 <template>
   <div id="app">
     <toast position="ne"></toast>
-    <header>
-      <navbar />
-    </header>
+    <navbar />
     <main>
       <transition name="fade">
         <router-view />
@@ -37,6 +35,12 @@ export default {
   /**
    * Transition Fade
    */
+  .fade-enter-active {
+    overflow: hidden;
+  }
+  .fade-leave-active {
+    overflow: auto;
+  }
   .fade-enter-active,
   .fade-leave-active {
     transition-property: opacity;
@@ -107,7 +111,7 @@ export default {
    */
   .card {
     box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
-    border: 0;
+    border: 1px solid rgba(0, 0, 0, .08);
   }
   /**
    * Misc
@@ -122,7 +126,7 @@ export default {
    * Sections
    */
   main {
-    margin-top: 62px;
+    margin-top: 61px;
   }
   .section {
     padding: 50px 0;
@@ -130,27 +134,17 @@ export default {
   /**
    * Tables
    */
-  table {
-    border-collapse: separate;
-    border-spacing: 0 10px;
-  }
   .table td,
   .table th {
     font-size: 14px;
-    border-top: 0;
   }
   .table thead th {
-    border-width: 0;
     color: #999999;
     font-weight: 400;
   }
   .table thead th:last-child,
   .table tbody td:last-child {
     text-align: right;
-  }
-  .table tbody tr {
-    background-color: #ffffff;
-    box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .15);
   }
   .table-dropdown {
     text-align: right;
@@ -190,22 +184,6 @@ export default {
   }
   .b-table-empty-row div {
     margin: 0 !important;
-  }
-
-  .table-input {
-    padding-right: 34px;
-    border: 1px solid transparent;
-    box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .15);
-  }
-  .table-input::placeholder {
-    color: #999;
-    opacity: 1;
-  }
-  .table-input:-ms-input-placeholder {
-    color: #999;
-  }
-  .table-input::-ms-input-placeholder {
-    color: #999;
   }
   /**
    * Toast
