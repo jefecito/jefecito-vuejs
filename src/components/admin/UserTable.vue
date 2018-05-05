@@ -4,7 +4,7 @@
     <b-container>
       <b-card>
         <div class="justify-content-centermy-1 row">
-          <b-form-fieldset class="col-2">
+          <b-form-fieldset class="col-md-3">
             <small>
               Filas por página
             </small>
@@ -15,7 +15,7 @@
             </b-form-select>
           </b-form-fieldset>
 
-          <b-form-fieldset class="col-4">
+          <b-form-fieldset class="col-md-5">
             <small>
               Filtro
             </small>
@@ -25,12 +25,27 @@
               v-model="filter">
             </b-form-input>
           </b-form-fieldset>
+
+          <b-form-fieldset class="col-md-4">
+            <small>
+              &nbsp;
+            </small>
+            <b-pagination
+              size="md"
+              :total-rows="this.userList.length"
+              :per-page="perPage"
+              v-model="currentPage" />
+          </b-form-fieldset>
         </div>
 
         <b-table
           striped
           bordered
           show-empty
+          stacked="lg"
+          :sort-compare="sortFunction"
+          :sort-by.sync="sortBy"
+          :sort-desc.sync="sortDesc"
           empty-text="No hay usuarios para mostrar"
           empty-filtered-text="No hay usuarios que concuerden con tu búsqueda"
           :items="this.userList"
@@ -39,25 +54,7 @@
           :per-page="perPage"
           :filter="filter">
           <template
-            slot="Usuario"
-            slot-scope="item">
-            {{ item.item.local.username }}
-          </template>
-
-          <template
-            slot="Email"
-            slot-scope="item">
-            {{ item.item.local.email }}
-          </template>
-
-          <template
-            slot="Rol"
-            slot-scope="item">
-            {{ item.item.local.roles[0] }}
-          </template>
-
-          <template
-            slot="Acciones"
+            slot="actions"
             slot-scope="item">
             <b-dropdown
               id="ddown-right"
@@ -66,7 +63,7 @@
               class="table-dropdown text-right"
               variant="default">
               <template slot="text">
-                <i class="fas fa-ellipsis-h"></i>
+                <font-awesome-icon icon="ellipsis-h" />
               </template>
               <b-dropdown-item>
                 Editar
@@ -80,36 +77,45 @@
               </b-dropdown-item>
             </b-dropdown>
           </template>
-
-          <!-- empty -->
-          <template
-            slot=""
-            v-if="userList.length === 0"
-            slot-scope="item">
-            NO hay nada
-          </template>
         </b-table>
-
-        <div class="justify-content-end row my-1">
-          <b-pagination
-            size="md"
-            :total-rows="this.userList.length"
-            :per-page="perPage"
-            v-model="currentPage"
-          />
-        </div>
       </b-card>
     </b-container>
   </section>
 </template>
 
 <script>
+/**
+ * Imports
+ */
 import {
   mapActions,
   mapGetters
 } from 'vuex'
+import moment from 'moment'
 
+/**
+ * Components
+ */
 import AdminSectionHeader from '../shared/AdminSectionHeader'
+
+/**
+ * Sort
+ */
+import { getValue } from '../../filter/table'
+
+/**
+ * Variables
+ */
+const pageOption = [{
+  text: 5,
+  value: 5
+}, {
+  text: 10,
+  value: 10
+}, {
+  text: 15,
+  value: 15
+}]
 
 export default {
   name: 'UserTable',
@@ -132,24 +138,51 @@ export default {
   data () {
     return {
       fields: [
-        'Usuario',
-        'Email',
-        'Rol',
-        'Acciones'
+        {
+          key: 'local.username',
+          label: 'Usuario',
+          sortable: true
+        },
+        {
+          key: 'local.email',
+          label: 'Email',
+          sortable: true
+        },
+        {
+          key: 'local.roles',
+          label: 'Rol',
+          sortable: true
+        },
+        {
+          key: 'local.createdAt',
+          label: 'Fecha Ingreso',
+          sortable: true,
+          formatter (val) {
+            return moment(val).format('DD/MM/YYYY HH:mm')
+          }
+        },
+        {
+          key: 'actions',
+          label: 'Acciones',
+          sortable: false
+        }
       ],
       currentPage: 1,
       perPage: 5,
       filter: null,
-      pageOption: [{
-        text: 5,
-        value: 5
-      }, {
-        text: 10,
-        value: 10
-      }, {
-        text: 15,
-        value: 15
-      }]
+      pageOption,
+      sortBy: 'local.username',
+      sortDesc: false,
+      sortFunction (a, b, key) {
+        const valA = getValue(a, key)
+        const valB = getValue(b, key)
+
+        if (typeof valA === 'number' && typeof valB === 'number') {
+          return valA < valB ? -1 : (valA > valB ? 1 : 0)
+        } else {
+          return valA.localeCompare(valB)
+        }
+      }
     }
   }
 }
@@ -160,5 +193,9 @@ export default {
   .danger-text:hover,
   .danger-text {
     color: red;
+  }
+  .table-dropdown .btn {
+    border: 0;
+    background: transparent;
   }
 </style>

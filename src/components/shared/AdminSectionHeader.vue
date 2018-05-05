@@ -25,6 +25,7 @@ export default {
     padding: 25px 0;
     background-color: #efefef;
     border-bottom: 1px solid rgba(0, 0, 0, .07);
+    box-shadow: 0 2px 2px -2px rgba(0,0,0,.15);
     margin-bottom: 20px;
   }
   .header .title {
