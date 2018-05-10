@@ -3,86 +3,93 @@ import Router from 'vue-router'
 import CFG from '@/config'
 import { store } from '@/store'
 
-/**
- * Route Metas
- */
-const meta = {
+// Route Metas
+const adminMeta = {
   requiresAuth: true,
   role: 'admin'
 }
 
-/**
- * Public View List
- */
+const userMeta = {
+  requiresAuth: true,
+  role: 'admin'
+}
+
+// Public Views
 const IndexView = () => import('@/components/pages/IndexView')
 
-/**
- * Auth Views
- */
+// Auth Views
 const SignView = () => import('@/components/pages/SignView')
 const ResetPasswordView = () => import('@/components/pages/ResetPasswordView')
 
-/**
- * Protected User Views
- */
+// Protected User Views
 
-/**
- * Admin Views
- */
+// Admin Views
 const AdminView = () => import('@/components/pages/AdminView')
 const UserTable = () => import('@/components/admin/UserTable')
+
+// User Views
+const UserView = () => import('@/components/pages/UserView')
+const UserProfile = () => import('@/components/user/UserProfile')
 
 Vue.use(Router)
 
 const routes = [
-  /**
-   * Redirect everything to index
-   */
+  // Redirect everything to index
   {
     path: '*',
     redirect: '/'
   },
-  /**
-   * Index
-   */
+
+  // Index
   {
     path: '/',
     name: 'Index',
     component: IndexView
   },
-  /**
-   * Sing In / Sign Up
-   */
+
+  // Sing In / Sign Up
   {
     path: '/sign',
     name: 'Sign',
     component: SignView
   },
-  /**
-   * Admin Views
-   */
+
+  // Admin Routes
   {
     path: '/admin',
     name: 'AdminView',
     component: AdminView,
     redirect: '/',
     children: [
-      /**
-       * Users ABM
-       */
+      // Users ABM
       {
         path: 'users',
         name: 'UserTable',
         component: UserTable,
-        meta
+        adminMeta
       }
     ]
   },
-  /**
-   * Auth
-   *
-   * Google Auth
-   */
+
+  // Users Routes
+  {
+    path: '/user',
+    name: 'UserView',
+    component: UserView,
+    redirect: '/',
+    children: [
+      // User Settings
+      {
+        path: 'profile',
+        name: 'UserProfile',
+        component: UserProfile,
+        userMeta
+      }
+    ]
+  },
+
+  // Auth
+  // Google
   {
     name: 'authGoogle',
     path: '/auth/google',
@@ -90,9 +97,8 @@ const routes = [
       window.location = 'http://localhost:3000/auth/google'
     }
   },
-  /*
-  * LinkedIn Auth
-  */
+
+  // LinkedIn
   {
     name: 'authLinkedin',
     path: '/auth/linkedin',
@@ -100,9 +106,8 @@ const routes = [
       window.location = 'http://localhost:3000/auth/linkedin'
     }
   },
-  /*
-  * Twitter Auth
-  */
+
+  // Twitter
   {
     name: 'authTwitter',
     path: '/auth/twitter',
@@ -110,9 +115,8 @@ const routes = [
       window.location = 'http://localhost:3000/auth/twitter'
     }
   },
-  /*
-  * Twitter Auth
-  */
+
+  // Facebook
   {
     name: 'authFacebook',
     path: '/auth/facebook',
@@ -120,9 +124,8 @@ const routes = [
       window.location = 'http://localhost:3000/auth/facebook'
     }
   },
-  /**
-   * Callback Social Network Login
-   */
+
+  // Callback Social Network Login
   {
     path: '/auth/callback',
     beforeEnter (to, from, next) {
@@ -135,9 +138,8 @@ const routes = [
       } // if/else
     }
   },
-  /**
-   * Confirm Email
-   */
+
+  // Confirm Email
   {
     path: '/user/confirm/:id',
     component: SignView,
@@ -152,9 +154,8 @@ const routes = [
       } // if/else
     }
   },
-  /**
-   * Reset Password
-   */
+
+  // Reset Password
   {
     path: '/reset-password/:token',
     component: ResetPasswordView,
@@ -173,7 +174,7 @@ router.beforeEach((to, from, next) => {
   const user = JSON.parse(localStorage.getItem(CFG.localStorage.userKey))
   const userIsAdmin = user && user.roles.indexOf('admin') !== -1
 
-  // check auth
+  // Check auth
   if (to.meta.requiresAuth && !user) {
     next({
       name: 'Login'
@@ -181,7 +182,7 @@ router.beforeEach((to, from, next) => {
     return
   }
 
-  // if the route is login and the user is logged in, redirect to index
+  // If the route is login and the user is logged in, redirect to index
   if (to.name === 'Login' && !!user) {
     next({
       name: 'Index'
@@ -189,7 +190,7 @@ router.beforeEach((to, from, next) => {
     return
   }
 
-  // in this point, the user is logged in and do not have permissios or the view is public
+  // In this point, the user is logged in and do not have permissios or the view is public
   if (to.meta.role === 'admin' && !userIsAdmin) {
     // todo: go to author's default view
     next({
@@ -198,7 +199,7 @@ router.beforeEach((to, from, next) => {
     return
   }
 
-  // proced with the public view
+  // Proced with the public view
   next()
 })
 

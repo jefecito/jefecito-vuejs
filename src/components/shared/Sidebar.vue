@@ -26,9 +26,6 @@ export default {
 </script>
 
 <style lang="css" scoped>
-  /**
-  * SIDEBAR STYLE
-  */
   .sidebar {
     width: 275px;
     left: 0;
@@ -122,8 +119,8 @@ export default {
     }
   }
   /**
-  * SIDEBAR SHADOW STYLE
-  */
+   * Sidebar Shadow
+   */
   .sidebar__shadow {
     position: fixed;
     top: 0;

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <admin-section-header title="Lisado de Usuarios" />
+    <admin-section-header title="Listado de Usuarios" />
     <b-container>
       <b-card>
         <div class="justify-content-centermy-1 row">
@@ -84,28 +84,20 @@
 </template>
 
 <script>
-/**
- * Imports
- */
+// Default Components
 import {
   mapActions,
   mapGetters
 } from 'vuex'
 import moment from 'moment'
 
-/**
- * Components
- */
+// Custom components
 import AdminSectionHeader from '../shared/AdminSectionHeader'
 
-/**
- * Sort
- */
+// Filters for Sort
 import { getValue } from '../../filter/table'
 
-/**
- * Variables
- */
+// Variables
 const pageOption = [{
   text: 5,
   value: 5

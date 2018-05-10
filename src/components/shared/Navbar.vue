@@ -24,6 +24,11 @@
           </b-dropdown-item>
 
           <b-dropdown-item
+            :to="{ name: 'UserProfile' }">
+            Perfil de Usuario
+          </b-dropdown-item>
+
+          <b-dropdown-item
             @click="logOut">
             Cerrar Sesión
           </b-dropdown-item>

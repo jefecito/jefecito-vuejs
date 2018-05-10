@@ -14,17 +14,13 @@ import Sidebar from '../shared/Sidebar'
 
 const navigation = [
   {
-    label: 'Usuarios',
-    ref: 'UserTable'
-  },
-  {
     label: 'Configuración',
     ref: 'UserProfile'
   }
 ]
 
 export default {
-  name: 'AdminView',
+  name: 'UserView',
   components: {
     Sidebar
   },

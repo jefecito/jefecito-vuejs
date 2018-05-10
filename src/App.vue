@@ -11,10 +11,10 @@
 </template>
 
 <script>
-/**
- * Import Comeponenets
- */
+// Default Componenets
 import { Toast } from 'vuex-toast'
+
+// Custom Componenets
 import Navbar from '@/components/shared/Navbar'
 
 export default {
@@ -90,8 +90,13 @@ export default {
   }
   .btn {
     font-size: 14px;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08),
-                0 2px 2px 0 rgba(0, 0, 0, 0.1);
+    /*
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08),
+                  0 2px 2px 0 rgba(0, 0, 0, 0.1);
+    */
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                0 3px 1px -2px rgba(0, 0, 0, 0.12),
+                0 1px 5px 0 rgba(0, 0, 0, 0.2);
   }
   .btn.active.focus,
   .btn.active:focus,
