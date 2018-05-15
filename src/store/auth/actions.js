@@ -1,6 +1,7 @@
 import axios from 'axios'
 import router from '@/router'
 import localStorageService from '@/utils/localStorageService'
+import toastService from '@/utils/toastService'
 import {
   ADD_TOAST_MESSAGE,
   REMOVE_TOAST_MESSAGE
@@ -74,24 +75,12 @@ export default {
       .post('/login', data)
       .then(response => {
         if (!response.data.success) {
-          dispatch(ADD_TOAST_MESSAGE, {
-            text: response.data.error.message,
-            type: 'danger',
-            dismissAfter: 3000
-          }, {
-            root: true
-          })
+          toastService.sendToastVuex(dispatch, response.data.error.message, 'danger')
 
           localStorageService.removeUser()
           commit('setLoggedOut')
         } else {
-          dispatch(ADD_TOAST_MESSAGE, {
-            text: `Bienvenido, ${response.data.data.username || response.data.data.email}`,
-            type: 'success',
-            dismissAfter: 3000
-          }, {
-            root: true
-          })
+          toastService.sendToastVuex(dispatch, `Bienvenido, ${response.data.data.username}`, 'success')
 
           commit('setLoggedIn', response.data.data)
           localStorageService.setUser(response.data.data)
@@ -99,15 +88,7 @@ export default {
         } // if/else
       })
       .catch((err) => {
-        console.log('err: ', err)
-        dispatch(ADD_TOAST_MESSAGE, {
-          text: err.message,
-          type: 'danger',
-          dismissAfter: 3000
-        }, {
-          root: true
-        })
-
+        toastService.sendToastVuex(dispatch, err.message, 'danger')
         localStorageService.removeUser()
         commit('setLoggedOut')
       })

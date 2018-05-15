@@ -37,49 +37,60 @@
     </b-form-group>
 
     <b-button
+      :disabled="submitButton.disabled"
       type="submit"
       variant="primary">
-      Crear Cuenta
+      {{ submitButton.title }}
     </b-button>
   </form>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
-import { ADD_TOAST_MESSAGE } from 'vuex-toast'
+import toastService from '../../utils/toastService'
 
 export default {
   name: 'Register',
   data () {
     return {
-      credentials: {}
+      credentials: {
+        password: '',
+        rePassword: '',
+        email: ''
+      },
+      submitButton: {
+        title: 'Crear Cuenta',
+        disabled: false
+      }
     }
   },
   methods: {
+    ...toastService,
     ...mapActions('auth', [
       'signUp'
     ]),
-    ...mapActions({
-      addToast: ADD_TOAST_MESSAGE
-    }),
     submit () {
       if (this.credentials.password !== this.credentials.rePassword) {
-        return this.addToast({
-          text: 'Las contraseñas deben coincidir',
-          type: 'danger',
-          dismissAfter: 10000
-        })
+        return this.sendToast('Las contraseñas deben coincidir', 'danger')
       }
 
       if (!this.credentials.email.length || !this.credentials.email.length) {
-        return this.addToast({
-          text: 'Campos Insuficientes',
-          type: 'danger',
-          dismissAfter: 10000
-        })
+        return this.sendToast('Campos Insuficientes', 'danger')
+      }
+      
+      this.submitButton = {
+        title: 'Creando cuenta...',
+        disabled: true
       }
 
-      this.signUp(this.credentials)
+      this
+        .signUp(this.credentials)
+        .then(() => {
+          this.submitButton = {
+            title: 'Crear Cuenta',
+            disabled: false
+          }
+        })
     }
   }
 }

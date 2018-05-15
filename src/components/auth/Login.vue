@@ -34,9 +34,10 @@
 
     <div class="text-right">
       <b-button
+        :disabled="submitButton.disabled"
         type="submit"
         variant="primary">
-        Ingresar
+        {{ submitButton.title }}
       </b-button>
     </div>
   </form>
@@ -44,32 +45,45 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { ADD_TOAST_MESSAGE } from 'vuex-toast'
+import toastService from '../../utils/toastService'
 
 export default {
   name: 'Login',
   data () {
     return {
-      credentials: {}
+      submitButton: {
+        title: 'Ingresar',
+        disabled: false
+      },
+      credentials: {
+        email: '',
+        password: ''
+      }
     }
   },
   methods: {
+    ...toastService,
     ...mapActions('auth', [
       'logIn'
     ]),
-    ...mapActions({
-      addToast: ADD_TOAST_MESSAGE
-    }),
     submit () {
       if (!this.credentials.email.length || !this.credentials.password.length) {
-        this.addToast({
-          text: 'Campos Insuficientes',
-          type: 'danger',
-          dismissAfter: 10000
-        })
-      } else {
-        this.logIn(this.credentials)
+        return this.sendToast('Campos Insuficientes', 'danger')
       }
+
+      this.submitButton = {
+        title: 'Enviando',
+        disabled: true
+      }
+
+      this
+        .logIn(this.credentials)
+        .then(() => {
+          this.submitButton = {
+            title: 'Ingresar',
+            disabled: false
+          }
+        })
     }
   }
 }

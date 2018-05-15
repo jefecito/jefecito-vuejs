@@ -19,10 +19,11 @@
         </b-form-input>
         <b-input-group-append>
           <b-button
+            :disabled="submitButton.disabled"
             type="submit"
             class="recover-password-btn"
             variant="primary">
-            Enviar
+            {{ submitButton.title }}
           </b-button>
         </b-input-group-append>
       </b-input-group>
@@ -32,7 +33,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { ADD_TOAST_MESSAGE } from 'vuex-toast'
+import toastService from '../../utils/toastService'
 
 export default {
   name: 'RecoverPassword',
@@ -40,31 +41,40 @@ export default {
     return {
       credentials: {
         email: ''
+      },
+      submitButton: {
+        title: 'Enviar',
+        disabled: false
       }
     }
   },
   methods: {
+    ...toastService,
     ...mapActions('auth', [
       'requestPassword'
     ]),
-    ...mapActions({
-      addToast: ADD_TOAST_MESSAGE
-    }),
     submit () {
       if (!this.credentials.email) {
-        this.addToast({
-          text: 'Debe ingresar un email',
-          type: 'danger',
-          dismissAfter: 10000
-        })
-      } else {
-        this
-          .requestPassword(this.credentials)
-          .then(() => {
-            this.credentials.email = ''
-            this.$refs.modalRecoverPassword.hide()
-          })
+        return this.sendToast('Debe ingresar un email', 'danger')
       }
+
+      this.submitButton = {
+        title: 'Enviando...',
+        disabled: true
+      }
+
+      this
+        .requestPassword(this.credentials)
+        .then(() => {
+          this.credentials.email = ''
+
+          this.submitButton = {
+            title: 'Enviar',
+            disabled: false
+          }
+
+          this.$refs.modalRecoverPassword.hide()
+        })
     }
   }
 }

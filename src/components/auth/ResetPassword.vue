@@ -30,9 +30,10 @@
 
     <div class="text-right">
       <b-button
+        :disabled="submitButton.disabled"
         type="submit"
         variant="primary">
-        Confirmar
+        {{ submitButton.title }}
       </b-button>
     </div>
   </form>
@@ -40,7 +41,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { ADD_TOAST_MESSAGE } from 'vuex-toast'
+import toastService from '../../utils/toastService'
 
 export default {
   name: 'ResetPassword',
@@ -48,6 +49,10 @@ export default {
     token: {
       type: String,
       required: true
+    },
+    submitButton: {
+      title: 'Confirmar',
+      disabled: false
     }
   },
   data () {
@@ -56,23 +61,30 @@ export default {
     }
   },
   methods: {
+    ...toastService,
     ...mapActions('auth', [
       'resetPassword'
     ]),
-    ...mapActions({
-      addToast: ADD_TOAST_MESSAGE
-    }),
     submit () {
       if (this.credentials.password !== this.credentials.rePassword) {
-        this.addToast({
-          text: 'Las contraseñas deben coincidir.',
-          type: 'danger',
-          dismissAfter: 10000
-        })
-      } else {
-        this.credentials.token = this.token
-        this.resetPassword(this.credentials)
+        return this.sendToast('Las contraseñas deben coincidir', 'danger')
       }
+
+      this.credentials.token = this.token
+
+      this.submitButton = {
+        title: 'Actualizando contraseña...',
+        disabled: true
+      }
+
+      this
+        .resetPassword(this.credentials)
+        .then(() => {
+          this.submitButton = {
+            title: 'Confirmar',
+            disabled: false
+          }
+        })
     }
   }
 }
