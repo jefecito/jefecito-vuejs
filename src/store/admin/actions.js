@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { ADD_TOAST_MESSAGE } from 'vuex-toast'
+import toastService from '@/utils/toastService'
 
 export default {
   getAllUsers ({ commit, state, dispatch }) {
@@ -7,27 +8,14 @@ export default {
       .get('/api/users')
       .then((response) => {
         if (!response.data.success) {
-          dispatch(ADD_TOAST_MESSAGE, {
-            text: response.data.error.message,
-            type: 'danger',
-            dismissAfter: 3000
-          }, {
-            root: true
-          })
-
+          toastService.sendToastVuex(dispatch, response.data.error.message, 'danger')
           commit('setUserList', [])
         } else {
           commit('setUserList', response.data.data)
         } // if/else
       })
       .catch((err) => {
-        dispatch(ADD_TOAST_MESSAGE, {
-          text: err.response.data.error.message,
-          type: 'danger',
-          dismissAfter: 3000
-        }, {
-          root: true
-        })
+        toastService.sendToastVuex(dispatch, err.response.data.error.message, 'danger')
       })
   }
 }

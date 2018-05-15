@@ -2,10 +2,6 @@ import axios from 'axios'
 import router from '@/router'
 import localStorageService from '@/utils/localStorageService'
 import toastService from '@/utils/toastService'
-import {
-  ADD_TOAST_MESSAGE,
-  REMOVE_TOAST_MESSAGE
-} from 'vuex-toast'
 
 export default {
   /*
@@ -99,42 +95,18 @@ export default {
       .post('/register', payload)
       .then((response) => {
         if (!response.data.success) {
-          dispatch(ADD_TOAST_MESSAGE, {
-            text: response.data.error.message,
-            type: 'danger',
-            dismissAfter: 3000
-          }, {
-            root: true
-          })
+          toastService.sendToastVuex(dispatch, response.data.error.message, 'danger')
         } else {
-          dispatch(ADD_TOAST_MESSAGE, {
-            text: response.data.data,
-            type: 'info',
-            dismissAfter: 3000
-          }, {
-            root: true
-          })
+          toastService.sendToastVuex(dispatch, response.data.data, 'info')
         }
       })
       .catch((err) => {
-        dispatch(ADD_TOAST_MESSAGE, {
-          text: err.message,
-          type: 'danger',
-          dismissAfter: 3000
-        }, {
-          root: true
-        })
+        toastService.sendToastVuex(dispatch, err.message, 'danger')
       })
   },
 
   logOut ({ commit, state, dispatch }) {
-    dispatch(ADD_TOAST_MESSAGE, {
-      text: `Hasta luego, ${state.user.username || state.user.email}`,
-      type: 'info',
-      dismissAfter: 3000
-    }, {
-      root: true
-    })
+    toastService.sendToastVuex(dispatch, `Hasta luego, ${state.user.username || state.user.email}`, 'info')
 
     localStorageService.removeUser()
     commit('setLoggedOut')
@@ -142,77 +114,36 @@ export default {
   },
 
   confirmEmail ({ commit, state, dispatch }, payload) {
-    dispatch(ADD_TOAST_MESSAGE, {
-      text: 'Validando su email, por favor aguarde un instante...',
-      type: 'info',
-      dismissAfter: 5000
-    }, {
-      root: true
-    })
+    toastService.sendToastVuex(dispatch, 'Validando su email, por favor aguarde un instante...', 'info', 5000)
 
     axios
       .get('/api/user/confirm', { params: payload })
       .then((response) => {
-        // dispatch(REMOVE_TOAST_MESSAGE, 22)
         if (!response.data.success) {
-          dispatch(ADD_TOAST_MESSAGE, {
-            text: response.data.error.message,
-            type: 'danger',
-            dismissAfter: 3000
-          }, {
-            root: true
-          })
+          toastService.sendToastVuex(dispatch, response.data.error.message, 'danger')
         } else {
-          dispatch(ADD_TOAST_MESSAGE, {
-            text: `Su email: ${response.data.data.email} ha sido validado. Ya puede iniciar sesión.`,
-            type: 'success',
-            dismissAfter: 3000
-          }, {
-            root: true
-          })
+          toastService.sendToastVuex(dispatch, `Su email: ${response.data.data.email} ha sido validado. Ya puede iniciar sesión.`, 'success')
         } // if/else
       })
       .catch((err) => {
-        console.log('err: ', err)
-        dispatch(REMOVE_TOAST_MESSAGE, 'validate_email')
-        dispatch(ADD_TOAST_MESSAGE, {
-          text: err.message,
-          type: 'danger',
-          dismissAfter: 3000
-        }, {
-          root: true
-        })
+        toastService.sendToastVuex(dispatch, err.message, 'danger')
       })
   },
 
   requestPassword ({ commit, state, dispatch }, payload) {
-    dispatch(ADD_TOAST_MESSAGE, {
-      text: 'Validando su email, por favor aguarde un instante...',
-      type: 'info',
-      dismissAfter: 5000
-    }, {
-      root: true
-    })
+    toastService.sendToastVuex(dispatch, 'Validando su email, por favor aguarde un instante...', 'info', 5000)
 
     axios
       .put('/api/user/me/request-password', payload)
       .then(response => {
-        dispatch(ADD_TOAST_MESSAGE, {
-          text: response.data.data,
-          type: 'success',
-          dismissAfter: 5000
-        }, {
-          root: true
-        })
+        if (!response.data.success) {
+          toastService.sendToastVuex(dispatch, response.data.error.message, 'danger')
+        } else {
+          toastService.sendToastVuex(dispatch, response.data.data, 'info')
+        }
       })
       .catch((err) => {
-        dispatch(ADD_TOAST_MESSAGE, {
-          text: err.message,
-          type: 'danger',
-          dismissAfter: 3000
-        }, {
-          root: true
-        })
+        toastService.sendToastVuex(dispatch, err.message, 'danger')
       })
   },
 
@@ -221,33 +152,14 @@ export default {
       .put('/api/user/me/reset-password', payload)
       .then((response) => {
         if (!response.data.success) {
-          dispatch(ADD_TOAST_MESSAGE, {
-            text: response.data.error.message,
-            type: 'danger',
-            dismissAfter: 8000
-          }, {
-            root: true
-          })
+          toastService.sendToastVuex(dispatch, response.data.error.message, 'danger')
         } else {
-          dispatch(ADD_TOAST_MESSAGE, {
-            text: response.data.data,
-            type: 'success',
-            dismissAfter: 8000
-          }, {
-            root: true
-          })
-
+          toastService.sendToastVuex(dispatch, response.data.data, 'success')
           router.push('/sign')
         }
       })
       .catch((err) => {
-        dispatch(ADD_TOAST_MESSAGE, {
-          text: err.message,
-          type: 'danger',
-          dismissAfter: 3000
-        }, {
-          root: true
-        })
+        toastService.sendToastVuex(dispatch, err.message, 'danger')
       })
   },
 
@@ -261,28 +173,14 @@ export default {
         .get('/api/user/token', { params })
         .then(response => {
           if (!response.data.success) {
-            dispatch(ADD_TOAST_MESSAGE, {
-              text: response.data.error.message,
-              type: 'danger',
-              dismissAfter: 3000
-            }, {
-              root: true
-            })
-
+            toastService.sendToastVuex(dispatch, response.data.error.message, 'danger')
             reject(new Error(false))
           } else {
             resolve(response.data.data)
           } // if/else
         })
         .catch((err) => {
-          dispatch(ADD_TOAST_MESSAGE, {
-            text: err.message,
-            type: 'danger',
-            dismissAfter: 3000
-          }, {
-            root: true
-          })
-
+          toastService.sendToastVuex(dispatch, err.message, 'danger')
           reject(new Error(false))
         })
     })
@@ -293,39 +191,18 @@ export default {
       .post('/api/user/me', payload)
       .then((response) => {
         if (!response.data.success) {
-          dispatch(ADD_TOAST_MESSAGE, {
-            text: response.data.error.message,
-            type: 'danger',
-            dismissAfter: 3000
-          }, {
-            root: true
-          })
-
+          toastService.sendToastVuex(dispatch, response.data.error.message, 'danger')
           localStorageService.removeUser()
           commit('setLoggedOut')
         } else {
-          dispatch(ADD_TOAST_MESSAGE, {
-            text: `Bienvenido, ${response.data.data.username}`,
-            type: 'success',
-            dismissAfter: 3000
-          }, {
-            root: true
-          })
-
+          toastService.sendToastVuex(dispatch, `Bienvenido, ${response.data.data.username}`, 'success')
           commit('setLoggedIn', response.data.data)
           localStorageService.setUser(response.data.data)
           router.push('/')
         } // if/else
       })
       .catch((err) => {
-        dispatch(ADD_TOAST_MESSAGE, {
-          text: err.message,
-          type: 'danger',
-          dismissAfter: 3000
-        }, {
-          root: true
-        })
-
+        toastService.sendToastVuex(dispatch, err.message, 'danger')
         localStorageService.removeUser()
         commit('setLoggedOut')
       })
